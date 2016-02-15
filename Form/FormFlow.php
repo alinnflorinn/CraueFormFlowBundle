@@ -777,6 +777,24 @@ abstract class FormFlow implements FormFlowInterface {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function setStep($stepNumber) {
+		if (!is_int($stepNumber)) {
+			throw new InvalidTypeException($stepNumber, 'integer');
+		}
+
+		$steps = $this->getSteps();
+		$index = $stepNumber - 1;
+
+		if (array_key_exists($index, $steps)) {
+			$this->currentStepNumber = $stepNumber;
+		} else {
+			throw new \OutOfBoundsException(sprintf('The step "%d" does not exist.', $stepNumber));
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getSteps() {
 		// The steps have been loaded already.
 		if ($this->steps !== null) {
